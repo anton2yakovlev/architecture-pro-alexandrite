@@ -16,6 +16,8 @@ services:
     container_name: service-b
     ports:
       - "7002:7002"
+    environment:
+      - OTEL_PROPAGATORS=tracecontext
     restart: unless-stopped
 
   service-a:
@@ -25,4 +27,6 @@ services:
       - service-b
     ports:
       - "7001:7001"
+    environment:
+      - OTEL_PROPAGATORS=tracecontext
     restart: unless-stopped

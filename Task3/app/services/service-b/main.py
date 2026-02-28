@@ -6,6 +6,7 @@ from opentelemetry.sdk.resources import Resource, SERVICE_NAME  # pyright: ignor
 from opentelemetry.sdk.trace import TracerProvider  # pyright: ignore[reportMissingImports]
 from opentelemetry.sdk.trace.export import BatchSpanProcessor  # pyright: ignore[reportMissingImports]
 
+
 resource = Resource(attributes={
     SERVICE_NAME: "service-b"
 })
