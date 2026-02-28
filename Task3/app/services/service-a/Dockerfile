@@ -7,6 +7,6 @@ RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r re
 
 COPY . /app
 
-EXPOSE 8080
+EXPOSE 7001
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7001"]

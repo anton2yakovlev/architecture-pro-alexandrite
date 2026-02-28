@@ -14,8 +14,8 @@ resource = Resource(attributes={
 
 provider = TracerProvider(resource=resource)
 jaeger_exporter = JaegerExporter(
-   agent_host_name="jaeger",
-   agent_port=6831,
+    agent_host_name="jaeger",
+    agent_port=6831,
 )
 provider.add_span_processor(BatchSpanProcessor(jaeger_exporter))
 trace.set_tracer_provider(provider)
@@ -26,7 +26,8 @@ FastAPIInstrumentor.instrument_app(app)
 
 @app.get("/get-total-price")
 def read_root() -> float:
-    response = requests.get("http://service-b:8080/get-shopping-cart-items")
+    # В контейнере обращаться к другому сервису по имени сервиса из docker-compose
+    response = requests.get("http://service-b:7002/get-shopping-cart-items")
     shopping_cart_items = response.json()
     total_price = sum(item['price'] * item['quantity'] for item in shopping_cart_items)
     return float(total_price)

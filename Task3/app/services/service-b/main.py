@@ -12,8 +12,8 @@ resource = Resource(attributes={
 
 provider = TracerProvider(resource=resource)
 jaeger_exporter = JaegerExporter(
-   agent_host_name="jaeger",
-   agent_port=6831,
+    agent_host_name="jaeger",
+    agent_port=6831,
 )
 provider.add_span_processor(BatchSpanProcessor(jaeger_exporter))
 trace.set_tracer_provider(provider)
