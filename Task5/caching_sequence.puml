@@ -1,0 +1,36 @@
+@startuml caching_sequence
+title Кеширование MES
+
+actor Оператор
+participant "MES" as UI
+participant "MES API" as API
+participant "Redis" as Redis
+participant "MES DB" as DB
+participant "RabbitMQ" as MQ
+participant "Обновление кеша" as CU
+
+== Чтение списка заказов ==
+Оператор -> UI: открыть список
+UI -> API: запрос списка
+API -> Redis: есть в кеше?
+Redis --> API: нет
+API -> DB: запрос
+DB --> API: данные
+API -> Redis: сохранить
+API --> UI: список заказов
+
+== Смена статуса заказа ==
+Оператор -> UI: взять в работу
+UI -> API: смена статуса
+API -> DB: обновить
+DB --> API: ок
+API -> Redis: сбросить устаревшие страницы
+API -> MQ: событие "статус изменился"
+API --> UI: готово
+
+MQ -> CU: событие
+CU -> DB: прочитать актуальные списки
+DB --> CU: данные
+CU -> Redis: обновить первые страницы
+
+@enduml
